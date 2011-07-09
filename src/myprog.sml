@@ -259,6 +259,7 @@ signature proofSystem = sig
 	val isContradiction : Form.form -> bool
 	val areEquivalent : Form.form*Form.form -> bool
 	val isValidCNF : Form.form -> bool
+	val isValidDNF : Form.form -> bool
 end
 structure ProofSystem :> proofSystem = struct
 	fun isTautology f =
@@ -319,5 +320,35 @@ structure ProofSystem :> proofSystem = struct
 				in validater(f)
 				end
 		in tmpValid(f')
+		end
+	fun isValidDNF(f)=
+		let
+			val f' = NormalForms.toDNF(Form.Negation(f))
+			fun tmpInValid (Form.Disjunction(A,B)) = (tmpInValid(A) andalso tmpInValid(B))
+			| tmpInValid (Form.Absurdum) = true
+			| tmpInValid (Form.propSymb c) = false
+			| tmpInValid (Form.Negation(Form.Absurdum)) = false
+			| tmpInValid (Form.Negation(Form.propSymb c)) = false
+			| tmpInValid (f) = 
+				let 
+					fun lister (Form.Absurdum) = ([],[],true)
+						| lister (Form.propSymb c) = (Set.makeSet([c]),[],true)
+						| lister (Form.Negation(Form.Absurdum)) = ([],[],false)
+						| lister (Form.Negation(Form.propSymb c)) = ([],Set.makeSet([c]),true)
+						| lister (Form.Conjunction(A',B')) =
+							let
+								val (plst1,nplst1,flag1) = lister(A')
+								val (plst2,nplst2,flag2) = lister(B')
+							in ( Set.union(plst1,plst2) , Set.union(nplst1,nplst2) , (flag1 orelse flag2))
+							end
+					fun validater (x) =
+						let
+							val (plst,nplst,flag) = lister(x)
+							val cmmn = Set.intersection(plst,nplst)
+						in (flag orelse (not (cmmn = [])))
+						end
+				in validater(f)
+				end
+		in tmpInValid(f')
 		end
 end
