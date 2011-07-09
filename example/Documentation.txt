@@ -1,0 +1,50 @@
+Syntax
+
+                  _            for       absurdum
+                  char         for       Propositional Symbol
+                  &&           for       Logical And
+                  ||           for       Logical Or
+                  !            for       Logical Not
+                  ->           for       Implies
+
+
+Examples          	      P&&Q       means P and Q
+                              P||Q       means P or Q
+                              !P         means not P
+                              P->Q       means P->Q
+
+
+       Form.parse()                      converts input string to a formula
+       
+       Form.format()                     converts formula to a string
+       
+       Sem1.valuation()                  given a list of char*char tuple it generates a
+                                         valuation function
+       
+       Sem1.interperation()              given a valuation as input it given truth value
+                                         of formula as output
+       
+       Semantic.getModel()               converts a list of character to
+                                         a Propositional Model
+       
+       Semantic.validates()              when given a Model and a formula as input
+                                         it checks its validity
+       
+       ProofSystem.isTautology()         checks whether a given formula is a
+                                         tautology or not
+       
+       ProofSystem.isContradiction()     checks whether a given formula is a
+                                         contradiction or not
+       
+       ProofSystem.isareEquivalent()     checks whether given two formulas are
+                                         equivalent or not
+       
+       ProofSystem.isValidCNF()          checks validity using CNF form
+       
+       ProofSystem.isValidDNF()          checks validity using DNF form
+       
+       NormalForms.toNNF()               converts formula to NNF form
+       
+       NormalForms.toCNF()               converts formula to CNF form
+       
+       NormalForms.toDNF()        converts formula to DNF form
