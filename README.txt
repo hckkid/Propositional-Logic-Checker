@@ -1,3 +1,5 @@
-folder src contains source code file
+src/ contains source code files.
 
-folder example contains documentation and a screenshot of use in action
+examples/ contains screenshots of example code.
+
+docs/ contains some documentation.
